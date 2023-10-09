@@ -77,7 +77,7 @@ const seconds = document.querySelector('#seconds');
 const highscoreDisplay = document.querySelector('#highscore');
 
 // Initialize Game
-async function init() {
+ function init() {
     // let result = await load_words();
     // Show number of seconds in UI
     seconds.innerHTML = currentLevel;
