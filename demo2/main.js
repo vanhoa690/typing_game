@@ -1,44 +1,55 @@
 window.addEventListener('load', init);
 
-var words = [];
+const words = [
+    "fpt",
+    "poly",
+    "polytechnic",
+    "van hoa",
+    "hoadv21",
+    "xuong thuc hanh",
+    "cong nghe thong tin",
+    "lap trinh",
+    "hoc lai",
+    "tach mon",
+];
 
 //Load words
-async function load_words()
-{
-    return new Promise(resolve => {
-        var xmlhttp;
-        if (window.XMLHttpRequest)
-        {
-            //  IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp=new XMLHttpRequest();
-        }
-        else
-        {
-            // IE6, IE5
-            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange=function()
-        {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200)
-            {
-
-                if (navigator.userAgentData.platform === "Windows")
-                    words=xmlhttp.responseText.split("\r\n");
-                else
-                    words=xmlhttp.responseText.split("\n");
-
-                words = words.map(string => {
-                    const parts = string.split(" - ");
-                    return { acronym: parts[0], terms: parts[1] };
-                });
-
-                resolve('resolved');
-            }
-        }
-        xmlhttp.open("GET","words.txt",true);
-        xmlhttp.send();
-    });
-}
+// async function load_words()
+// {
+//     return new Promise(resolve => {
+//         var xmlhttp;
+//         if (window.XMLHttpRequest)
+//         {
+//             //  IE7+, Firefox, Chrome, Opera, Safari
+//             xmlhttp=new XMLHttpRequest();
+//         }
+//         else
+//         {
+//             // IE6, IE5
+//             xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+//         }
+//         xmlhttp.onreadystatechange=function()
+//         {
+//             if (xmlhttp.readyState==4 && xmlhttp.status==200)
+//             {
+//
+//                 if (navigator.userAgentData.platform === "Windows")
+//                     words=xmlhttp.responseText.split("\r\n");
+//                 else
+//                     words=xmlhttp.responseText.split("\n");
+//
+//                 words = words.map(string => {
+//                     const parts = string.split(" - ");
+//                     return { acronym: parts[0], terms: parts[1] };
+//                 });
+//
+//                 resolve('resolved');
+//             }
+//         }
+//         xmlhttp.open("GET","words.txt",true);
+//         xmlhttp.send();
+//     });
+// }
 
 // Available Levels
 const levels = {
@@ -54,7 +65,8 @@ const currentLevel = levels.supereasy;
 let time = currentLevel;
 let score = 0;
 let isPlaying;
-
+// Init word
+let randomWord;
 // DOM Elements
 const wordInput = document.querySelector('#word-input');
 const currentWord = document.querySelector('#current-word');
@@ -66,7 +78,7 @@ const highscoreDisplay = document.querySelector('#highscore');
 
 // Initialize Game
 async function init() {
-    let result = await load_words();
+    // let result = await load_words();
     // Show number of seconds in UI
     seconds.innerHTML = currentLevel;
     // Load word from array
@@ -113,9 +125,9 @@ function startMatch() {
 // Match currentWord to wordInput
 function matchWords() {
 
-    let find = words.find(o => o.acronym === currentWord.innerHTML);
+    // let find = words.find(o => o.acronym === currentWord.innerHTML);
 
-    if (wordInput.value === find.terms) {
+    if (wordInput.value === randomWord) {
         message.innerHTML = 'Correct!!!';
         return true;
     } else {
@@ -129,7 +141,8 @@ function showWord(words) {
     // Generate random array index
     const randIndex = Math.floor(Math.random() * words.length);
     // Output random word
-    currentWord.innerHTML = words[randIndex].acronym;
+    randomWord = words[randIndex]
+    currentWord.innerHTML = words[randIndex];
 }
 
 // Countdown timer
@@ -148,9 +161,9 @@ function countdown() {
 
 // Check game status
 function checkStatus() {
-    let find = words.find(o => o.acronym === currentWord.innerHTML);
+    // let find = words.find(o => o.acronym === currentWord.innerHTML);
     if (!isPlaying && time === 0) {
-        message.innerHTML = 'Game Over!!! ' + find.terms;
+        message.innerHTML = 'Game Over!!! ';
         score = -1;
     }
 }
